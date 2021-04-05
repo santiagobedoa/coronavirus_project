@@ -1,6 +1,8 @@
 import requests
 import ast
 import support_functions
+import pyttsx3
+import speech_recognition
 
 class Data:
 
@@ -71,12 +73,47 @@ class Data:
         return data
 
 
-def main():
-    data = Data()
-    global_data = data.get_actual_global_data()
-    australia_data = data.get_actual_country_data('australia')
-    print(global_data)
-    print('*'*10)
-    print(australia_data)
+def get_audio(language_input):
+    '''
+    Record and transcribe the recorded audio.
+    :param language_input: language to be detected. "es" for spanish or "en" for english.
+    :return: string that contains the audio recorded
+    '''
+    recognize = speech_recognition.Recognizer()
+    with speech_recognition.Microphone() as source:
+        audio = recognize.listen(source)
+        text_said = str()
 
-#main()
+        if language_input.lower() == 'es':
+            try:
+                text_said = recognize.recognize_google(audio, language='es-CO')
+            except Exception as e:
+                print('Error in get_audio() function: '+str(e))
+
+            return text_said.lower()
+
+        else:
+            try:
+                text_said = recognize.recognize_google(audio, language='en-US')
+            except Exception as e:
+                print('Error in get_audio() function: ' + str(e))
+
+            return text_said.lower()
+
+
+def speak(text_to_speak):
+    '''
+    Speak the specified text
+    :param text_to_speak: text to speak
+    :return:
+    '''
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 150) # speaker speed
+    engine.say(text_to_speak)
+    engine.runAndWait()
+
+
+def main():
+    speak('hola mundo')
+
+main()
