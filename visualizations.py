@@ -1,7 +1,3 @@
-# pip install dash
-# pip install pandas
-# pip install dash-bootstrap-components: to do the Cards (global cases...) but first try go.Indicators
-
 import dash
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
@@ -64,80 +60,315 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.title = 'Coronavirus Tracker' # what appears on tab and google search
 
+# app.layout = html.Div(
+#     children=[
+#         html.Div(
+#             children=[
+#                 html.P(children='🦠', className='header-emoji'),
+#                 html.H1(children='Coronavirus Tracker', className='header-title'),
+#                 html.P(children='In this section you will find a series of visualizations describing the evolution of the coronavirus.', className='header-description')
+#             ],
+#             className='header',
+#         ),
+#         html.Div(
+#             children=[
+#                 html.H1(children='Global Cases', className='header-global-title'),
+#                 html.Div(
+#                     children=[
+#                         html.Div(
+#                             children=[
+#                             html.H6(
+#                                 children=('Total Confirmed'),
+#                                 style={
+#                                     'textAlign': 'center',
+#                                     'color': 'white',
+#                                     'fontSize': 15,
+#                                     #'backgroundColor': '34495E',
+#                                 }
+#                             ),
+#                             html.P(
+#                                 children=[
+#                                     html.P(
+#                                         f'{str(global_data["TotalConfirmed"])}',
+#                                         style={
+#                                             'textAlign': 'center',
+#                                             'color': 'orange',
+#                                             'fontSize': 40
+#                                         }
+#                                     )
+#                                 ]
+#                             ),
+#                             html.P(
+#                                 f'New Cases: {global_data["NewConfirmed"]}',
+#                                 style={
+#                                     'textAlign': 'center',
+#                                     'color': 'orange',
+#                                     'fontSize': 20
+#                                 }
+#                             )
+#                         ],
+#                             className='card'
+#                         ),
+#                         html.Div(
+#                             children=[
+#                                 html.H6(
+#                                     children=('Total Confirmed'),
+#                                     style={
+#                                         'textAlign': 'center',
+#                                         'color': 'white',
+#                                         'fontSize': 15
+#                                     }
+#                                 ),
+#                                 html.P(
+#                                     children=[
+#                                         html.P(
+#                                             f'{str(global_data["TotalConfirmed"])}',
+#                                             style={
+#                                                 'textAlign': 'center',
+#                                                 'color': 'orange',
+#                                                 'fontSize': 40
+#                                             }
+#                                         )
+#                                     ]
+#                                 ),
+#                                 html.P(
+#                                     f'New Cases: {global_data["NewConfirmed"]}',
+#                                     style={
+#                                         'textAlign': 'center',
+#                                         'color': 'orange',
+#                                         'fontSize': 20
+#                                     }
+#                                 )
+#                             ],
+#                             className='card'
+#                         ),
+#                         html.Div(
+#                             children=[
+#                                 html.H6(
+#                                     children=('Total Confirmed'),
+#                                     style={
+#                                         'textAlign': 'center',
+#                                         'color': 'white',
+#                                         'fontSize': 15
+#                                     }
+#                                 ),
+#                                 html.P(
+#                                     children=[
+#                                         html.P(
+#                                             f'{str(global_data["TotalConfirmed"])}',
+#                                             style={
+#                                                 'textAlign': 'center',
+#                                                 'color': 'orange',
+#                                                 'fontSize': 40
+#                                             }
+#                                         )
+#                                     ]
+#                                 ),
+#                                 html.P(
+#                                     f'New Cases: {global_data["NewConfirmed"]}',
+#                                     style={
+#                                         'textAlign': 'center',
+#                                         'color': 'orange',
+#                                         'fontSize': 20
+#                                     }
+#                                 )
+#                             ],
+#                             className='card'
+#                         )
+#                     ],
+#                     style={
+#                         'columnCount': 3,
+#                         'margin-top': '32px'
+#                            },
+#                 )
+#
+#             ],
+#             className='wrapper-global-cases'
+#         ),
+#         html.Div(
+#             children=[
+#                 html.H1(children='Global Map', className='header-global-title'),
+#                 html.P(children='Confirmed Cases', className='header-description'),
+#                 html.Div(
+#                     children=[
+#                         html.Div(
+#                             children=(
+#                                 dcc.Graph(
+#                                     id= 'Map',
+#                                     figure=create_map(df2, 'TotalConfirmed')
+#                                 ),
+#                             ),
+#                             className='map',
+#                         ),
+#                     ],
+#                     className='wrapper-map'
+#                 ),
+#                 html.Div(
+#                     children=(
+#                         html.P('Made in Colombia by Bedo', className='header-description')
+#                     ),
+#                     className='header-credits'
+#                 )
+#             ],
+#             className='wrapper-map'
+#         ),
+#     ],
+#     className='background'
+# )
 app.layout = html.Div(
     children=[
         html.Div(
             children=[
-                html.P(children='🦠', className='header-emoji'),
-                html.H1(children='Coronavirus Tracker', className='header-title'),
-                html.P(children='In this section you will find a series of visualizations describing the evolution of the coronavirus.', className='header-description')
-            ],
-            className='header',
-        ),
-        html.Div(
-            children=[
-                html.H1(children='Global Cases', className='header-global-title'),
                 html.Div(
                     children=[
-                        html.Div(
-                            children=(
-                                dcc.Graph(
-                                    id= 'Total_Confirmed',
-                                    figure=create_card(global_data['TotalConfirmed'], 'Total Confirmed')
-                                ),
-                            ),
-                            className='card',
-                        ),
-                        html.Div(
-                            children=(
-                                dcc.Graph(
-                                    id= 'Total_Deaths',
-                                    figure=create_card(global_data['TotalDeaths'], 'Total Deaths')
-                                )
-                            ), className='card'
-                        ),
-                        html.Div(
-                            children=(
-                                dcc.Graph(
-                                    id='Total_Recovered',
-                                    figure=create_card(global_data['TotalRecovered'], 'Total Recovered')
-                                )
-                            ), className='card'
-                        ),
+                        html.P(children='🦠', className='header-emoji'),
+                        html.H1(children='Coronavirus Tracker', className='header-title'),
+                        html.P(children='In this section you will find a series of visualizations describing the evolution of the coronavirus.', className='header-description')
                     ],
-                    style={'columnCount': 3},
-                    className='wrapper-global-cases'
-                )
-            ],
-            className='wrapper-global-cases'
-        ),
-        html.Div(
-            children=[
-                html.H1(children='Global Map', className='header-global-title'),
-                html.P(children='Confirmed Cases', className='header-description'),
-                html.Div(
-                    children=[
-                        html.Div(
-                            children=(
-                                dcc.Graph(
-                                    id= 'Map',
-                                    figure=create_map(df2, 'TotalConfirmed')
-                                ),
-                            ),
-                            className='map',
-                        ),
-                    ],
-                    className='wrapper-map'
+                    className='header-container'
                 ),
                 html.Div(
-                    children=(
-                        html.P('Made in Colombia', className='header-description')
-                    ),
-                    className='header-credits'
+                    children=[
+                        html.Div(
+                            children=[
+                                html.Div(
+                                    children=[
+                                        html.H1(children='Global Information', className='header-title')
+                                    ],
+                                    className='cards-title'
+                                ),
+                                html.Div(
+                                    children=[
+                                        html.Div(
+                                            children=[
+                                                html.Div(
+                                                    children=[
+                                                        html.H6(
+                                                            children='Total Confirmed',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'white',
+                                                                'fontSize': 15
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='El numero aqui',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 40
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='Nuevos casos',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 20
+                                                            }
+                                                        )
+                                                    ],
+                                                    className='four columns' # Card 1
+                                                ),
+                                                    html.Div(
+                                                    children=[
+                                                        html.H6(
+                                                            children='Total Confirmed',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'white',
+                                                                'fontSize': 15
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='El numero aqui',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 40
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='Nuevos casos',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 20
+                                                            }
+                                                        )
+                                                    ],
+                                                    className='four columns' # Card 2
+                                                ),
+                                                html.Div(
+                                                    children=[
+                                                        html.H6(
+                                                            children='Total Confirmed',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'white',
+                                                                'fontSize': 15
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='El numero aqui',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 40
+                                                            }
+                                                        ),
+                                                        html.P(
+                                                            children='Nuevos casos',
+                                                            style={
+                                                                'textAlign': 'center',
+                                                                'color': 'orange',
+                                                                'fontSize': 20
+                                                            }
+                                                        )
+                                                    ],
+                                                    className='four columns' # Card 3
+                                                ),
+                                            ]
+                                        )
+                                    ],
+                                    className='row', # the three cards
+                                )
+                            ],
+                            className='cards-container'
+                        ),
+                        html.Div(
+                            children=[
+                                html.Div(
+                                    children=[
+                                        html.H1(children='Global Map', className='header-global-title'),
+                                        html.P(children='Confirmed Cases', className='header-description'),
+                                    ],
+                                    className='map-title'
+                                ),
+                                html.Div(
+                                    children=[
+                                        dcc.Graph(
+                                            id= 'map_figure',
+                                            figure= create_map(df2, 'TotalConfirmed')
+                                        )
+                                    ],
+                                    className='map-fig'
+                                )
+                            ],
+                            className='map-container'
+                        )
+                    ],
+                    className='charts-container'
+                ),
+                html.Div(
+                    children=[
+                        html.P('Made in Colombia by Bedo', className='header-description')
+                    ],
+                    className='credits-container'
                 )
             ],
-            className='wrapper-map'
-        ),
+            className='block-container'
+        )
     ],
     className='background'
 )
