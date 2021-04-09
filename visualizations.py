@@ -233,7 +233,7 @@ app.layout = html.Div(
                             children=[
                                 html.Div(
                                     children=[
-                                        html.H1(children='Global Information', className='header-title')
+                                        html.H1(children='Global Information', className='header-global-title')
                                     ],
                                     className='cards-title'
                                 ),
@@ -243,90 +243,69 @@ app.layout = html.Div(
                                             children=[
                                                 html.Div(
                                                     children=[
-                                                        html.H6(
-                                                            children='Total Confirmed',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'white',
-                                                                'fontSize': 15
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='El numero aqui',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 40
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='Nuevos casos',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 20
-                                                            }
+                                                        html.Div(
+                                                            children=[
+                                                                html.H6(
+                                                                    children='Total Confirmed',
+                                                                    className='card-title-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=str(global_data['TotalConfirmed']),
+                                                                    className='card-big-number-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=f'New Cases: {str(global_data["NewConfirmed"])}',
+                                                                    className='card-new-cases-style'
+                                                                )
+                                                            ],
+                                                            className='card-left-item'
                                                         )
                                                     ],
-                                                    className='four columns' # Card 1
-                                                ),
-                                                    html.Div(
-                                                    children=[
-                                                        html.H6(
-                                                            children='Total Confirmed',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'white',
-                                                                'fontSize': 15
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='El numero aqui',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 40
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='Nuevos casos',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 20
-                                                            }
-                                                        )
-                                                    ],
-                                                    className='four columns' # Card 2
+                                                    className='four columns'  # Card 1
                                                 ),
                                                 html.Div(
                                                     children=[
-                                                        html.H6(
-                                                            children='Total Confirmed',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'white',
-                                                                'fontSize': 15
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='El numero aqui',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 40
-                                                            }
-                                                        ),
-                                                        html.P(
-                                                            children='Nuevos casos',
-                                                            style={
-                                                                'textAlign': 'center',
-                                                                'color': 'orange',
-                                                                'fontSize': 20
-                                                            }
+                                                        html.Div(
+                                                            children=[
+                                                                html.H6(
+                                                                    children='Total Deaths',
+                                                                    className='card-title-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=str(global_data['TotalDeaths']),
+                                                                    className='card-big-number-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=f'New Deaths: {str(global_data["NewRecovered"])}',
+                                                                    className='card-new-cases-style'
+                                                                )
+                                                            ],
+                                                            className='card-center-item'
                                                         )
                                                     ],
-                                                    className='four columns' # Card 3
+                                                    className='four columns'  # Card 2
+                                                ),
+                                                html.Div(
+                                                    children=[
+                                                        html.Div(
+                                                            children=[
+                                                                html.H6(
+                                                                    children='Total Recovered',
+                                                                    className='card-title-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=str(global_data['TotalRecovered']),
+                                                                    className='card-big-number-style'
+                                                                ),
+                                                                html.P(
+                                                                    children=f'New Recovered: {str(global_data["NewRecovered"])}',
+                                                                    className='card-new-cases-style'
+                                                                )
+                                                            ],
+                                                            className='card-right-item'
+                                                        )
+                                                    ],
+                                                    className='four columns'  # Card 3
                                                 ),
                                             ]
                                         )
@@ -341,7 +320,7 @@ app.layout = html.Div(
                                 html.Div(
                                     children=[
                                         html.H1(children='Global Map', className='header-global-title'),
-                                        html.P(children='Confirmed Cases', className='header-description'),
+                                        html.P(children='Confirmed Cases', className='map-description'),
                                     ],
                                     className='map-title'
                                 ),
