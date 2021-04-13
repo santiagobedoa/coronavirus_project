@@ -3,6 +3,7 @@ import ast
 import support_functions
 import pyttsx3
 import speech_recognition
+import os
 
 class Data:
 
@@ -23,6 +24,24 @@ class Data:
         global_data = support_functions.convert_date_to_time(raw_data['Global'])
 
         return global_data
+
+
+    def get_all_countries_actual_data(self):
+        '''
+        Do a request to "https://api.covid19api.com/summary" and create a dictionary with
+        the global data.
+        Structure:
+        {'NewConfirmed': int, 'TotalConfirmed': int, 'NewDeaths': int, 'TotalDeaths': int,
+        'NewRecovered': int, 'TotalRecovered': int, 'Date': datetime.datetime(2021, 4, 4, 3, 19, 12, 662000)}
+        :return: dict that contains the global data of the current day.
+        '''
+        url = 'https://api.covid19api.com/summary'
+        response = requests.request('GET', url)
+        str_raw_data = response.text
+        raw_data = ast.literal_eval(str_raw_data)
+        countries_data = raw_data['Countries']
+
+        return countries_data
 
 
     # COUNTRY ACTUAL DATA
@@ -101,6 +120,11 @@ def get_audio(language_input):
             return text_said.lower()
 
 
+def open_global_visualization():
+    cmd = os.path.join(os.getcwd(), "global_visualization.py")
+    os.system('{} {}'.format('python', cmd))
+
+
 def speak(text_to_speak):
     '''
     Speak the specified text
@@ -114,6 +138,8 @@ def speak(text_to_speak):
 
 
 def main():
-    speak('hola mundo')
+    data = Data()
+    global_info = data.get_actual_global_data()
+    print()
 
-main()
+#main()

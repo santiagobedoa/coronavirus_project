@@ -162,10 +162,6 @@ New Style Here
     margin-right: 50px;
 }
 
-.map-title{
-    margin-top: 50px;
-}
-
 .map-title-2{
     color: #F4F6F6;
     font-size: 48px;
@@ -174,6 +170,7 @@ New Style Here
     margin: 0 auto;
     flex-direction: column;
     margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 .map-description {
@@ -181,6 +178,10 @@ New Style Here
     margin: 4px auto;
     text-align: center;
     max-width: 384px;
+}
+
+.map-filter {
+    margin-bottom: 10px;
 }
 
 .credits-text {
