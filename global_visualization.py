@@ -15,21 +15,6 @@ map_data = data.get_all_countries_actual_data()
 df_map = pd.DataFrame(map_data)
 
 
-app = dash.Dash(external_stylesheets=[dbc.themes.SUPERHERO])
-
-header_page = dbc.Card(
-    [
-        dbc.CardBody(
-            [
-                html.P('🦠', className='header-emoji'),
-                html.H1('Coronavirus Tracker', className='header-title'),
-                html.P('In this section you will find a series of visualizations describing the evolution of the coronavirus.', className='header-description')
-            ],
-            className='header-container'
-        )
-    ]
-)
-
 def create_card(data, target):
     big_number_value = data['Total'+str(target)]
     new_cases_value = data['New'+str(target)]
@@ -44,7 +29,7 @@ def create_card(data, target):
                 ]
             )
         ],
-        className='card-center-item'
+        className='card-item'
     )
 
     return card_fig
@@ -71,6 +56,8 @@ def create_map(df, target):
     return map_fig
 
 
+app = dash.Dash(external_stylesheets=[dbc.themes.SUPERHERO])
+
 app.layout = html.Div(
     [
         html.Div(
@@ -85,7 +72,7 @@ app.layout = html.Div(
             [
                 dbc.Container(
                     [
-                        html.H1('Global Cases', className='header-global-title-2'),
+                        html.H1('Global Cases', className='header-global-title'),
                         dbc.Row(
                             [
                                 dbc.Col(create_card(global_data, 'Confirmed'), md=4),
@@ -94,7 +81,7 @@ app.layout = html.Div(
                             ]
                         )
                     ],
-                    className='cards-container-2'
+                    className='cards-container'
                 ),
                 dbc.Container(
                     [
