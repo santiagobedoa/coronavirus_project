@@ -6,14 +6,16 @@ import speech_recognition
 import os
 
 class Data:
+
     def __init__(self):
         # AUTHORIZATION
         self.postman = {'Username':'corona','Password':'ZUav4vawzCfMcMXHV8B'}
 
+
     # GLOBAL INFORMATION
     def get_available_countries(self):
         '''
-        Do a request to "https://api.covid19api.com/countries" and create a dictionary wth the
+        Do a request to "https://api.covid19api.com/countries" and create a list with the
         available countries.
         Strucutre:
         [{'Country': str, 'Slug': str, 'ISO2': str}]
