@@ -1,9 +1,6 @@
 import requests
 import ast
-import support_functions
-import pyttsx3
-import speech_recognition
-import os
+import utils
 
 class Data:
 
@@ -42,7 +39,7 @@ class Data:
         response = requests.request('GET', url, data=self.postman)
         str_raw_data = response.text
         raw_data = ast.literal_eval(str_raw_data)
-        global_data = support_functions.convert_date_to_time(raw_data['Global'])
+        global_data = utils.convert_date_to_time(raw_data['Global'])
 
         return global_data
 
@@ -86,7 +83,7 @@ class Data:
             if country['Country'].lower() == str(country_name):
                 country_data = country
 
-        data = support_functions.convert_date_to_time(country_data)
+        data = utils.convert_date_to_time(country_data)
 
         return data
 
@@ -108,7 +105,7 @@ class Data:
         response = requests.request('GET', url, data=self.postman)
         str_raw_data = response.text
         raw_data = ast.literal_eval(str_raw_data)
-        data = [support_functions.convert_date_to_time(day_info) for day_info in raw_data]
+        data = [utils.convert_date_to_time(day_info) for day_info in raw_data]
         new_cases = False
         confirmed_day_before = 0
         deaths_day_before = 0
@@ -150,56 +147,3 @@ class Data:
                 new_cases = True
 
         return data
-
-
-def open_global_visualization():
-    cmd = os.path.join(os.getcwd(), "global_visualization.py")
-    os.system('{} {}'.format('python', cmd))
-
-
-def get_audio(language_input):
-    '''
-    Record and transcribe the recorded audio.
-    :param language_input: language to be detected. "es" for spanish or "en" for english.
-    :return: string that contains the audio recorded
-    '''
-    recognize = speech_recognition.Recognizer()
-    with speech_recognition.Microphone() as source:
-        audio = recognize.listen(source)
-        text_said = str()
-
-        if language_input.lower() == 'es':
-            try:
-                text_said = recognize.recognize_google(audio, language='es-CO')
-            except Exception as e:
-                print('Error in get_audio() function: '+str(e))
-
-            return text_said.lower()
-
-        else:
-            try:
-                text_said = recognize.recognize_google(audio, language='en-US')
-            except Exception as e:
-                print('Error in get_audio() function: ' + str(e))
-
-            return text_said.lower()
-
-
-def speak(text_to_speak):
-    '''
-    Speak the specified text
-    :param text_to_speak: text to speak
-    :return:
-    '''
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 150) # speaker speed
-    engine.say(text_to_speak)
-    engine.runAndWait()
-
-
-def main():
-    data = Data()
-    ola = data.get_all_country_data('colombia')
-    print(ola)
-
-#main()

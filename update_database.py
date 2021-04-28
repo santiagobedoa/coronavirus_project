@@ -1,5 +1,5 @@
 import pymongo
-from main import Data
+from connect_to_api import Data
 import ssl
 
 class UPDATE_DATABASE:
@@ -84,3 +84,11 @@ class UPDATE_DATABASE:
 
         print('Done! all available historical data updated...')
 
+
+if __name__ == '__main__':
+
+    db = UPDATE_DATABASE()
+    db.update_global_data()
+    db.update_available_countries()
+    db.update_countries_actual_data()
+    db.update_countries_historical_data()

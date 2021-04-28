@@ -7,7 +7,7 @@ import pandas as pd
 from dash.dependencies import Input, Output
 import webbrowser
 from threading import Timer
-from main import Data
+from connect_to_api import Data
 
 data = Data()
 global_data = data.get_actual_global_data()
