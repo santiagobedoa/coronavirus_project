@@ -53,10 +53,9 @@ class UPDATE_DATABASE:
 
     def update_countries_historical_data(self):
         '''
-        Updates the "acountries_historical_data" data that is stored in the database
+        Updates the "countries_historical_data" data that is stored in the database
         :return:
         '''
-        collections = self.database.list_collection_names()
         available_countries = [country['Slug'] for country in self.database['available_countries'].find()]
         for count, country in enumerate(available_countries):
             print(f'{str(count+1)}: {country}')
@@ -64,16 +63,11 @@ class UPDATE_DATABASE:
 
             if 0 < len(all_data):
                 collection = self.database[country]
+                last_recorded_date = [x['Date'] for x in self.database[country].find()][-1]
 
-                if country in collections:
-                    last_recorded_date = [x['Date'] for x in self.database[country].find()][-1]
-                    if all_data[-2]['Date'] == last_recorded_date:
-                        last_data = all_data[-1]
-                        collection.insert_one(last_data)
-                    else:
-                        self.database.drop[country]
-                        collection = self.database[country]
-                        collection.insert_many(all_data)
+                if all_data[-2]['Date'] == last_recorded_date:
+                    last_data = all_data[-1]
+                    collection.insert_one(last_data)
                 else:
                     self.database.drop[country]
                     collection = self.database[country]

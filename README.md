@@ -3,7 +3,6 @@ Create a voice assistant that provides you with information about the global or 
 
 ## Packages
 * requests: will be used to do a https request to API and get the data (str).
-* ast: will be used to convert the string response of the api to a dictionary.
 * datatime: will be used to convert dates in str format into datetime format.
 * SpeechRecognition: will be used to recognize the text of the speech.
 * pyttsx3: will be used to create assistant voice and enable it to speak.

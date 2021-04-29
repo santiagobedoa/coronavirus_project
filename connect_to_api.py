@@ -1,12 +1,12 @@
 import requests
-import ast
 import utils
+
 
 class Data:
 
     def __init__(self):
         # AUTHORIZATION
-        self.postman = {'Username':'corona','Password':'ZUav4vawzCfMcMXHV8B'}
+        self.postman = {'Username': 'corona', 'Password': 'ZUav4vawzCfMcMXHV8B'}
 
 
     # GLOBAL INFORMATION
@@ -25,7 +25,6 @@ class Data:
         return json_raw_data
 
 
-
     def get_actual_global_data(self):
         '''
         Do a request to "https://api.covid19api.com/summary" and create a dictionary with
@@ -37,9 +36,8 @@ class Data:
         '''
         url = 'https://api.covid19api.com/summary'
         response = requests.request('GET', url, data=self.postman)
-        str_raw_data = response.text
-        raw_data = ast.literal_eval(str_raw_data)
-        global_data = utils.convert_date_to_time(raw_data['Global'])
+        json_raw_data = response.json()
+        global_data = utils.convert_date_to_time(json_raw_data['Global'])
 
         return global_data
 
@@ -54,10 +52,9 @@ class Data:
         :return: dict that contains the global data of the current day.
         '''
         url = 'https://api.covid19api.com/summary'
-        response = requests.request('GET', url, data= self.postman)
-        str_raw_data = response.text
-        raw_data = ast.literal_eval(str_raw_data)
-        countries_data = raw_data['Countries']
+        response = requests.request('GET', url, data=self.postman)
+        json_raw_data = response.json()
+        countries_data = json_raw_data['Countries']
 
         return countries_data
 
@@ -76,10 +73,9 @@ class Data:
         '''
         url = 'https://api.covid19api.com/summary'
         response = requests.request('GET', url, data=self.postman)
-        str_raw_data = response.text
-        raw_data = ast.literal_eval(str_raw_data)
+        json_raw_data = response.json()
         country_data = {}
-        for country in raw_data['Countries']:
+        for country in json_raw_data['Countries']:
             if country['Country'].lower() == str(country_name):
                 country_data = country
 
@@ -103,9 +99,13 @@ class Data:
         '''
         url = f'https://api.covid19api.com/total/dayone/country/{country_slug_name}'
         response = requests.request('GET', url, data=self.postman)
-        str_raw_data = response.text
-        raw_data = ast.literal_eval(str_raw_data)
-        data = [utils.convert_date_to_time(day_info) for day_info in raw_data]
+        json_raw_data = response.json()
+        if len(json_raw_data) == 0:
+            return []
+        # WARNING: in some cases json_raw_data contains "message" and "success" strings (they are not dicts).
+        # I don't know why it happens. This is the reason why there is a condition in the list comprehension.
+        data = [utils.convert_date_to_time(day_info) for day_info in json_raw_data if day_info not in ['message','success']]
+
         new_cases = False
         confirmed_day_before = 0
         deaths_day_before = 0
@@ -120,7 +120,7 @@ class Data:
                 deaths_day_before = dictionary['Deaths']
                 recovered_day_before = dictionary['Recovered']
                 new_cases = True
-                
+
             else:
                 new_confirmed = dictionary['Confirmed'] - confirmed_day_before
                 new_deaths = dictionary['Deaths'] - deaths_day_before

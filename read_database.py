@@ -27,11 +27,3 @@ class READ_DATABASE:
         result = list(collection.find())
 
         return pd.DataFrame(result)
-
-
-
-
-if __name__ == '__main__':
-
-    db = READ_DATABASE()
-    print(db.df_countries_status().columns)
