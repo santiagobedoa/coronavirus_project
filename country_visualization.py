@@ -11,7 +11,7 @@ if __name__ == '__main__':
     read_database = READ_DATABASE()
     figure = FIGURE()
 
-    country = 'Colombia'
+    country = 'colombia'
 
     app = dash.Dash(external_stylesheets=[dbc.themes.SUPERHERO])
 

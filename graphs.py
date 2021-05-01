@@ -76,7 +76,7 @@ class FIGURE:
 
     def linear_chart(self, country, target):
         df = pd.DataFrame(self.db.country_historical_data(country))
-
+        df.drop_duplicates('Date', keep='first', inplace=True)
         linear_chart_figure = go.Figure()
         linear_chart_figure.add_trace(
             go.Scatter(
