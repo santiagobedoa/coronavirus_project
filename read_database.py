@@ -16,14 +16,28 @@ class READ_DATABASE:
         self.database = self.client['Coronavirus_project_DB']
 
 
-    def read_global_status(self):
+    def global_status_data(self):
         collection = self.database['global_data']
 
         return collection.find_one()
 
 
     def df_countries_status(self):
-        collection = self.database['countries_actual_data']
+        collection = self.database['countries_status']
         result = list(collection.find())
 
         return pd.DataFrame(result)
+
+
+    def country_historical_data(self, country):
+        collection = self.database[country.lower()]
+        result = list(collection.find())
+
+        return result
+
+
+
+if __name__ == '__main__':
+    db = READ_DATABASE()
+    print(db.country_historical_data('Colombia')[-1]['Active'])
+

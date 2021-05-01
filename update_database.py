@@ -39,13 +39,13 @@ class UPDATE_DATABASE:
         print('Done! available_countries updated...')
 
 
-    def update_countries_actual_data(self):
+    def update_countries_status(self):
         '''
         Updates the "countries_actual_data" data that is stored in the database
         :return:
         '''
-        self.database.countries_actual_data.drop()
-        collection = self.database['countries_actual_data']
+        self.database.countries_status.drop()
+        collection = self.database['countries_status']
         collection.insert_many(self.data.get_all_countries_actual_data())
 
         print('Done! countries_actual_data updated...')
@@ -84,5 +84,5 @@ if __name__ == '__main__':
     db = UPDATE_DATABASE()
     db.update_global_data()
     db.update_available_countries()
-    db.update_countries_actual_data()
+    db.update_countries_status()
     db.update_countries_historical_data()
