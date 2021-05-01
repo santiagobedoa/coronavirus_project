@@ -17,12 +17,20 @@ class READ_DATABASE:
 
 
     def global_status_data(self):
+        '''
+        Connect to the database where the data is stored and read "global_status_data" collection.
+        :return: dict with the global status information
+        '''
         collection = self.database['global_data']
 
         return collection.find_one()
 
 
     def df_countries_status(self):
+        '''
+        Connect to the database where the data is stored and read "global_status_data" collection.
+        :return: dataframe with the current status of a countries.
+        '''
         collection = self.database['countries_status']
         result = list(collection.find())
 
@@ -30,6 +38,10 @@ class READ_DATABASE:
 
 
     def country_historical_data(self, country):
+        '''
+        Connect to the database where the data is stored and read "global_status_data" collection.
+        :return: list of dicts where each dict contains the status of a specific date.
+        '''
         collection = self.database[country.lower()]
         result = list(collection.find())
 

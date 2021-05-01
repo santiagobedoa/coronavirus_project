@@ -104,7 +104,7 @@ class Data:
             return []
         # WARNING: in some cases json_raw_data contains "message" and "success" strings (they are not dicts).
         # I don't know why it happens. This is the reason why there is a condition in the list comprehension.
-        data = [utils.convert_date_to_time(day_info) for day_info in json_raw_data if type(day_info) != str()]
+        data = [utils.convert_date_to_time(day_info) for day_info in json_raw_data if day_info not in ['message', 'success']]
 
         new_cases = False
         confirmed_day_before = 0
