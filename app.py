@@ -73,64 +73,47 @@ if __name__ == '__main__':
                     ),
                     dbc.Container(
                         [
-                            html.H1('Country Visualization', className='country-visualization-title-f'),
-                            html.P('Search Country:', className='country-search-text-f'),
-                            dcc.Dropdown(
-                                id='countries-dropdown-id',
-                                options=[
-                                    {'label': target, 'value': target} for target in
-                                    list(read_database.df_available_countries()['Country'])
-                                ],
-                                value='Colombia',
-                                clearable=False,
-                                className='countries-dropdown-f'
-                            ),
-                            html.H1(country.upper(), className='country-name-f'),
-                            html.P('Active Cases:', className='country-active-cases-f'),
-                            html.P(f'{read_database.country_historical_data(country)[-1]["Active"]:,}',
-                                   className='country-active_cases-num-f'),
-                            dbc.Row(
+                            dbc.Container(
                                 [
-                                    dbc.Col(figure.country_status_card(country, 'Confirmed'), md=4),
-                                    dbc.Col(figure.country_status_card(country, 'Deaths'), md=4),
-                                    dbc.Col(figure.country_status_card(country, 'Recovered'), md=4)
-                                ],
-                                className='cards-container-f'
+                                    html.H1('Country Visualization', className='country-visualization-title-f'),
+                                    html.P('Search Country:', className='country-search-text-f'),
+                                    dcc.Dropdown(
+                                        id='countries-dropdown-id',
+                                        options=[
+                                            {'label': target, 'value': target} for target in
+                                            list(read_database.df_available_countries()['Slug'])
+                                        ],
+                                        value='colombia',
+                                        clearable=False,
+                                        className='countries-dropdown-f'
+                                    ),
+                                ]
                             )
                         ]
                     ),
+                    html.Div(id='countries-section-id'),
                     dbc.Container(
                         [
-                            html.H1('Linear Chart', className='graph-title-f'),
-                            dbc.Row(
+                            dbc.Container(
                                 [
-                                    dbc.Col(
-                                        dcc.Graph(
-                                            id='linear_chart_figure',
-                                            figure=figure.linear_chart(country, 'NewConfirmed')
-                                        ),
-                                        md=10
+                                    html.H1('Line Chart', className='graph-title-f'),
+                                    dcc.Dropdown(
+                                        id='linear_chart_dropdown_id',
+                                        options=[
+                                            {'label': target, 'value': target}
+                                            for target in (
+                                                ['NewConfirmed', 'NewDeaths', 'NewRecovered', 'Confirmed', 'Deaths',
+                                                 'Recovered'])
+                                        ],
+                                        value='NewConfirmed',
+                                        clearable=False,
+                                        className='countries-dropdown-f'
                                     ),
-                                    dbc.Col(
-                                        dcc.Dropdown(
-                                            id='linear_chart_dropdown',
-                                            options=[
-                                                {'label': target, 'value': target}
-                                                for target in (
-                                                    ['NewConfirmed', 'NewDeaths', 'NewRecovered', 'Confirmed', 'Deaths',
-                                                     'Recovered'])
-                                            ],
-                                            value='NewConfirmed',
-                                            clearable=False,
-                                            className='linear-chart-dropdown-f'
-                                        ),
-                                        md=2
-                                    )
-                                ],
-                                className='linear-chart-container-f'
+                                ]
                             )
                         ]
                     ),
+                    html.Div(id='line-chart-section-id'),
                     dbc.Container(
                         [
                             html.P('Made in Colombia...', className='credits-text-f'),
@@ -152,6 +135,55 @@ if __name__ == '__main__':
     def update_map(target):
 
         return figure.create_map(str(target))
+
+    @app.callback(
+        Output('countries-section-id', 'children'),
+        Input('countries-dropdown-id', 'value')
+    )
+    def update_country_value(country):
+        html_visualization = dbc.Container(
+            [
+                html.H1(country.upper(), className='country-name-f'),
+                html.P('Active Cases:', className='country-active-cases-f'),
+                html.P(f'{read_database.country_historical_data(country)[-1]["Active"]:,}', className='country-active_cases-num-f'),
+                dbc.Row(
+                    [
+                        dbc.Col(figure.country_status_card(country, 'Confirmed'), md=4),
+                        dbc.Col(figure.country_status_card(country, 'Deaths'), md=4),
+                        dbc.Col(figure.country_status_card(country, 'Recovered'), md=4)
+                    ],
+                    className='cards-container-f'
+                )
+            ]
+        )
+
+        return html_visualization
+
+    @app.callback(
+        Output('line-chart-section-id', 'children'),
+        Input('countries-dropdown-id', 'value'),
+        Input('linear_chart_dropdown_id', 'value')
+    )
+    def update_line_chart(country, target):
+
+        html_linechart = dbc.Container(
+            [
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dcc.Graph(
+                                id='linear_chart_figure',
+                                figure=figure.linear_chart(country, target)
+                            ),
+                            md=12
+                        )
+                    ],
+                    className='linear-chart-container-f'
+                )
+            ]
+        )
+
+        return html_linechart
 
 
     app.run_server(debug=True)
