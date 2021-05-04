@@ -41,7 +41,7 @@ class FIGURE:
                     [
                         html.H1(target, className='card-title-f'),
                         html.P(f'{big_number:,}', className='card-big-number-f'),
-                        html.P(f'New Cases: {new_cases_number}', className='card-new-cases-f')
+                        html.P(f'New Cases: {new_cases_number:,}', className='card-new-cases-f')
                     ],
                     className='card-content'
                 )

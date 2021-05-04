@@ -48,8 +48,20 @@ class READ_DATABASE:
         return result
 
 
+    def df_available_countries(self):
+        '''
+
+        :return:
+        '''
+        collection = self.database['available_countries']
+        result = list(collection.find())
+
+        return pd.DataFrame(result)
+
 
 if __name__ == '__main__':
     db = READ_DATABASE()
-    print(db.country_historical_data('Colombia')[-1]['Active'])
+    data = Data()
+    print(data.get_all_country_data('colombia')[-1])
+    print(db.country_historical_data('Colombia')[-1])
 
