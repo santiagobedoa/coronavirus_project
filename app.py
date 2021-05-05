@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     # Initialize Dash app
     app = Dash(external_stylesheets=[dbc.themes.SUPERHERO])
+    server = app.server
 
     # Set app layout
     app.layout = html.Div(
