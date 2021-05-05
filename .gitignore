@@ -142,3 +142,4 @@ cython_debug/
 venv
 test.py
 .DS_Store
+coronavirus19-dashboard/
