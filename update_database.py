@@ -1,5 +1,5 @@
 import pymongo
-from connect_to_api import Data
+from connect_to_api import DATA
 import ssl
 
 class UPDATE_DATABASE:
@@ -7,7 +7,7 @@ class UPDATE_DATABASE:
     def __init__(self):
         self.password = 'Coronavirus_project_BEDO'
         self.db_name = 'Coronavirus_project_DB'
-        self.data = Data()
+        self.data = DATA()
         self.client = pymongo.MongoClient(
             f"mongodb+srv://santiagobedoa:{self.password}@coronaviruscluster.ugpmg.mongodb.net/{self.db_name}?retryWrites=true&w=majority",
             ssl=True,

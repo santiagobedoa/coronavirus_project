@@ -2,7 +2,7 @@ import requests
 import utils
 
 
-class Data:
+class DATA:
 
     def __init__(self):
         # AUTHORIZATION
