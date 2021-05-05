@@ -106,3 +106,33 @@ class FIGURE:
         return linear_chart_figure
 
 
+    def bar_chart(self, target='TotalConfirmed'):
+        df = self.db.df_countries_status()
+        df = df.sort_values(by=target, ascending=False)[:7]
+
+        bar_figure = go.Figure(
+            go.Bar(
+                x=df['Country'],
+                y=df[target],
+            )
+        )
+        bar_figure.update_layout(
+            title = dict(
+                text=f'by: {target}',
+                font_family='sans-serif',
+                font_size=30,
+                font_color='#F39C12',
+                xanchor='center',
+                x=0.5
+            ),
+            xaxis_title = 'Date',
+            yaxis_title = 'Number of Cases',
+            legend_title = 'Country',
+            paper_bgcolor = "#4E5D6C",
+            font_color = '#CFCFCF'
+        )
+
+        return bar_figure
+
+
+

@@ -116,6 +116,10 @@ body {
 
 .map-dropdown-f {
   margin-bottom: 10px;
+  text-align: center;
+  width: 300px;
+  margin: auto;
+  padding: 10px;
 }
 
 .map-figure-f {
@@ -176,6 +180,23 @@ body {
   text-align: center;
   max-width: 384px;
   background-color: #34495E;
+}
+
+credits-container-f {
+  margin-top: 20px;
+}
+
+.bar-chart-f {
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.18);
+  background-color: #4E5D6C;
+}
+
+.bar-chart-dropdown-f {
+  text-align: center;
+  width: 300px;
+  margin: auto;
+  padding: 10px;
 }
 
 /* Table of contents

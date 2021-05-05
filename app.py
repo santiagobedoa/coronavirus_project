@@ -11,7 +11,6 @@ if __name__ == '__main__':
 
     figure = FIGURE()
     read_database = READ_DATABASE()
-    country = 'colombia'
 
     # Initialize Dash app
     app = Dash(external_stylesheets=[dbc.themes.SUPERHERO])
@@ -19,6 +18,7 @@ if __name__ == '__main__':
     # Set app layout
     app.layout = html.Div(
         [
+            # --- HEADER ---
             html.Div(
                 [
                     html.P('🦠', className='emoji-f'),
@@ -30,6 +30,7 @@ if __name__ == '__main__':
             ),
             dbc.Container(
                 [
+                    # --- GLOBAL INFORMATION CARDS ---
                     dbc.Container(
                         [
                             html.H1('Global Cases', className='cards-title-f'),
@@ -44,6 +45,7 @@ if __name__ == '__main__':
                         ],
                         className='cards-container-f'
                     ),
+                    # --- MAP ---
                     dbc.Container(
                         [
                             html.H1('Global Map', className='graph-title-f'),
@@ -59,7 +61,7 @@ if __name__ == '__main__':
                                 clearable=False,
                                 className='map-dropdown-f'
                             ),
-                            dbc.Col(
+                            dbc.Row(
                                 [
                                     dbc.Col(
                                         dcc.Graph(id='map-figure-id', figure=figure.create_map('TotalConfirmed'))
@@ -71,6 +73,7 @@ if __name__ == '__main__':
                         ],
                         className='global-graphs-container-f'
                     ),
+                    # --- COUNTRIES SECTION ---
                     dbc.Container(
                         [
                             dbc.Container(
@@ -91,12 +94,12 @@ if __name__ == '__main__':
                             )
                         ]
                     ),
-                    html.Div(id='countries-section-id'),
+                    # --- COUNTRY INFORMATION CARDS ---
+                    html.Div(id='country-cards-section-id'),
                     dbc.Container(
                         [
                             dbc.Container(
                                 [
-                                    html.H1('Line Chart', className='graph-title-f'),
                                     dcc.Dropdown(
                                         id='linear_chart_dropdown_id',
                                         options=[
@@ -113,12 +116,40 @@ if __name__ == '__main__':
                             )
                         ]
                     ),
+                    # --- COUNTRY LINE CHART ---
                     html.Div(id='line-chart-section-id'),
+                    # --- BAR CHART ---
+                    dbc.Container(
+                        [
+                            html.H6('Most Affected Countries', className='graph-title-f'),
+                            dcc.Dropdown(
+                                id='bar_chart_dropdown_id',
+                                options=[
+                                    {'label': target, 'value': target} for target in [
+                                        'TotalConfirmed', 'TotalDeaths', 'TotalRecovered',
+                                        'NewConfirmed', 'NewDeaths', 'NewRecovered'
+                                    ]
+                                ],
+                                value='TotalConfirmed',
+                                clearable=False,
+                                className='bar-chart-dropdown-f'
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(dcc.Graph(id='bar_chart_id' , figure=figure.bar_chart()))
+                                ],
+                                className='bar-chart-f',
+                                align='center'
+                            )
+                        ]
+                    ),
+                    # --- CREDITS ---
                     dbc.Container(
                         [
                             html.P('Made in Colombia...', className='credits-text-f'),
                             html.P('By Bedo', className='credits-text-f')
-                        ]
+                        ],
+                        className='credits-container-f'
                     )
                 ],
                 fluid=True,
@@ -127,20 +158,19 @@ if __name__ == '__main__':
         ],
         className='background-f'
     )
-
     @app.callback(
         Output('map-figure-id', 'figure'),
         Input('map-dropdown-id', 'value')
     )
     def update_map(target):
-
         return figure.create_map(str(target))
 
+
     @app.callback(
-        Output('countries-section-id', 'children'),
+        Output('country-cards-section-id', 'children'),
         Input('countries-dropdown-id', 'value')
     )
-    def update_country_value(country):
+    def update_country_cards(country):
         html_visualization = dbc.Container(
             [
                 html.H1(country.upper(), className='country-name-f'),
@@ -156,16 +186,15 @@ if __name__ == '__main__':
                 )
             ]
         )
-
         return html_visualization
+
 
     @app.callback(
         Output('line-chart-section-id', 'children'),
         Input('countries-dropdown-id', 'value'),
         Input('linear_chart_dropdown_id', 'value')
     )
-    def update_line_chart(country, target):
-
+    def update_county_line_chart(country, target):
         html_linechart = dbc.Container(
             [
                 dbc.Row(
@@ -182,8 +211,15 @@ if __name__ == '__main__':
                 )
             ]
         )
-
         return html_linechart
+
+
+    @app.callback(
+        Output('bar_chart_id', 'figure'),
+        Input('bar_chart_dropdown_id', 'value')
+    )
+    def update_bar_chart(target):
+        return figure.bar_chart(target)
 
 
     app.run_server(debug=True)
